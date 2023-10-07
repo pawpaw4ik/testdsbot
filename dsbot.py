@@ -1,39 +1,43 @@
 import discord
+import random
+from discord.ext import commands
 from bot_logic import gen_pass
 from bot_logic import toss_coin
 
-# Переменная intents - хранит привилегии бота
 intents = discord.Intents.default()
-# Включаем привелегию на чтение сообщений
 intents.message_content = True
-# Создаем бота в переменной client и передаем все привелегии
-client = discord.Client(intents=intents)
 
-@client.event
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
 async def on_ready():
-    print(f'We have logged in as {client.user}')
+    print(f'We have logged in as {bot.user}')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+@bot.command()
+async def genpass(ctx,pass_lenght = 8):
+    await ctx.send(f'Ваш пароль: {gen_pass(pass_lenght)}')
 
-    if message.content.startswith('$genpass'):
+@bot.command()
+async def tosscoin(ctx):
+    await ctx.send(toss_coin())
 
-        len = int(message.content.split()[1])
-        ps = gen_pass(len)
-        await message.channel.send(ps)
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Привет! Я бот {bot.user}!')
 
-    elif message.content.startswith('$tosscoin'):
-        await message.channel.send(toss_coin())
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
 
-    elif message.content.startswith('$hello'):
-        await message.channel.send("Hi!")
+@bot.command()
+async def repeat(ctx, times: int, content='repeating...'):
+    """Repeats a message multiple times."""
+    for i in range(times):
+        await ctx.send(content)
 
-    elif message.content.startswith('$bye'):
-        await message.channel.send("\\U0001f642")
+@bot.command(description='For when you wanna settle the score some other way')
+async def choose(ctx, *choices: str):
+    """Chooses between multiple choices."""
+    await ctx.send(random.choice(choices))
 
-    else:
-        await message.channel.send(message.content)
-
-client.run("MTE1NTE2NzA1OTY0NzQwNjA4MA.GMbA-9.Jwlh8Ko-WUy0s_IzX1FBoDOzHAbJabWyyMw8xQ")
+bot.run("MTE1NTE2NzA1OTY0NzQwNjA4MA.GMbA-9.Jwlh8Ko-WUy0s_IzX1FBoDOzHAbJabWyyMw8xQ")
