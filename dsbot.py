@@ -69,6 +69,33 @@ def get_dog_image_url():
     data = res.json()
     return data['url']
 
+@bot.command()
+async def animals(ctx):
+    grade = ''
+    a = random.randint(1,100)
+    if 1 <= a <= 70:
+        b = random.randint(1,5)
+        grade = 'common'
+        with open(f'animalsmemes/{grade}/mem{b}.jpg', 'rb') as f:
+            picture = discord.File(f)
+    elif 71 <= a <= 95:
+        b = random.randint(1, 3)
+        grade = 'rare'
+        with open(f'animalsmemes/{grade}/mem{b}.jpg', 'rb') as f:
+            picture = discord.File(f)
+    elif 96 <= a <= 100:
+        grade = 'legendary'
+        with open(f'animalsmemes/{grade}/mem1.jpg', 'rb') as f:
+            picture = discord.File(f)
+
+    await ctx.send(file=picture)
+    if grade == 'common':
+        await ctx.send('Вам выпал обычный мем')
+    elif grade == 'rare':
+        await ctx.send('Вам выпал редкий мем')
+    elif grade == 'legendary':
+        await ctx.send('Вам выпал легендарный мем \nP.s: Ты везунчик)')
+
 @bot.command('dog')
 async def dog(ctx):
     '''По команде dog вызывает функцию get_dog_image_url'''
@@ -86,4 +113,5 @@ async def choose(ctx, *choices: str):
     """Chooses between multiple choices."""
     await ctx.send(random.choice(choices))
 
-bot.run("ну типо код ляляля")
+bot.run("а меня нет)")
+
