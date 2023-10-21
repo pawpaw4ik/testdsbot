@@ -28,7 +28,9 @@ async def commands(ctx):
                    '5. repeat - повтоворяет ваше сообщение указанное количество раз\n'  
                    '6. mem - отправляет мемы про программирование\n'
                    '7. dog - отправляет случайное фото с собакой\n'  
-                   '8. duck - отправляет случайное фото с уткой')
+                   '8. duck - отправляет случайное фото с уткой\n'
+                   '9. howLongDecomposeHelp - Указывает поддерживаемы виды мусора для комманды howLongDecompose\n'
+                   '10. howLongDecompose - рассказывает сколько разлагается тот или иной вид мусора и как его утилизировать(узнать виды мусора можно по команде howLongDecomposeHelp)')
 
 @bot.command()
 async def tosscoin(ctx):
@@ -47,6 +49,32 @@ async def repeat(ctx, times: int, content='repeating...'):
     """Repeats a message multiple times."""
     for i in range(times):
         await ctx.send(content)
+
+@bot.command()
+async def howLongDecomposeHelp(ctx):
+    await ctx.send('Виды мусора:\n'
+                   '1. пластик\n'
+                   '2. дерево\n'
+                   '3. железо\n'
+                   '4. алюминий\n'
+                   '5. биомусор')
+
+
+@bot.command()
+async def howLongDecompose(ctx, trash = "Вы не указали вид мусора, или он не поддерживается"):
+    if trash == "пластик" or "Пластик":
+        await ctx.send('В среднем, пластик разлагается 300 лет! Его следует выбрасывать отдельно от остальных видов.')
+    elif trash == 'дерево'or 'Дерево':
+        await ctx.send('В среднем, ничем не обработанная древесина разлагается 6 лет! Настоятельно рекомендуем использовать ее по максимуму, а не выкидывать')
+    elif trash == 'железо' or 'Железо':
+        await ctx.send('В среднем, железо в природе разлагается в природе за 95 лет! Лучшим советом по утилизации будет, сдача в пункт приёма металлов.')
+    elif trash == 'алюминий' or 'Алюминий':
+        await ctx.send('В среднем, алюминий разлагается намного дольше других металлов, это аж целых 500 лет! Его подобно железу следует сдать в пункт приема.')
+    elif trash == 'биомусор' or 'Биомусор':
+        await ctx.send('В среднем, биомусор разлагается всего за 2 недели. Его следует просто отправлять на свалку или сжигать. Данный вид мусора самый безвредный для экологии.')
+
+
+
 
 @bot.command()
 async def mem(ctx):
@@ -113,5 +141,5 @@ async def choose(ctx, *choices: str):
     """Chooses between multiple choices."""
     await ctx.send(random.choice(choices))
 
-bot.run("а меня нет)")
+bot.run("токен")
 
